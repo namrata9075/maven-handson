@@ -1,0 +1,113 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>javaApp</groupId>
+    <artifactId>EvenSum</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <!--insert your plugins here-->
+     <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+	 </properties>
+
+  <build>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.1</version>
+          <configuration>
+            <source>1.8</source>
+            <target>1.8</target>
+          </configuration>
+        </plugin>
+
+
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.6.0</version>
+            <configuration>
+                <mainClass>javaApp.EvenSum</mainClass>
+                <commandlineArgs>20</commandlineArgs>
+            </configuration>
+        </plugin>
+
+
+      </plugins> 
+   </build>
+
+
+    
+    
+</project>
+
+
+
+
+package javaApp;
+
+public class EvenSum {
+
+    public static void main(String[] args) {
+        int num = Integer.parseInt(args[0]);
+        int even[] = new int[num];
+        int sum = 0,i=0,j = 0;
+        String evennums = "";
+        //Insert your code here
+          for(j=1;j<=num;j++){
+            
+          if(j % 2 == 0)
+          {
+            even[i] = j;
+            sum = sum + j; 
+            i++;
+          }
+        }
+
+         for(j=0;j<even.length/2;j++){
+           System.out.print(even[j]+((j==(even.length/2)-1)?evennums:","));
+        }
+        System.out.println();
+        System.out.println(sum);
+    }
+}  
+
+
+-------------------------------------------------------------------------------------------------
+
+#!/bin/sh
+score=0
+pass=0
+fail=0
+mvn clean compile
+mvn exec:java -Dexec.args=20 | tee .output.txt
+TEST_1=$(grep -o -e "maven-compiler-plugin" -e "exec-maven-plugin" -e "javaApp.EvenSum" pom.xml | wc -l)
+TEST_2=$(grep -o "BUILD SUCCESS" .output.txt | wc -l)
+TEST_3=$(grep -o -e "2,4,6,8,10,12,14,16,18,20" -e "110" .output.txt | wc -l)
+TEST_4=$(grep -o -e "evennums" -e "num" -e "sum" -e "even" ./src/main/java/javaApp/EvenSum.java | wc -l)
+if [ "$TEST_1" -ge 3 ]
+then ((pass++))
+else
+    ((fail++))
+fi;
+if [ "$TEST_2" -eq 1 ]
+then ((pass++))
+else
+    ((fail++))
+fi;
+if [ "$TEST_3" -ge 2 ]
+then ((pass++))
+else
+    ((fail++))
+fi;
+if [ "$TEST_4" -ge 7 ]
+then ((pass++))
+else
+    ((fail++))
+fi;
+echo "Total testcase: 4"
+echo "Total testcase passed: $pass"
+echo "Total testcase fail: $fail"
+echo "total score: $(( ($pass * 100) / 4))"

@@ -1,0 +1,24 @@
+mvn archetype:generate -DgroupId=ToolsQA -DartifactId=DemoMavenProject 
+-DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+
+
+
+i) if we getting error like gols missing then update following in pom.xml file below the url and above the dependancies
+         <properties>
+ 		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+
+
+
+--war file generating
+
+ <packaging>war</packaging>
+  <name>craetewar</name>
+  
+   <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.2.RELEASE</version>
+    </parent>
+  
